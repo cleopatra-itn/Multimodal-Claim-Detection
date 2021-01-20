@@ -5,7 +5,7 @@ import json
 import time
 import gzip
 import sys, getopt
-
+import urllib.request
 
 
 
@@ -19,12 +19,7 @@ def query_twitter(twython_api, id):
 
 def download_data(file_name, url):
     try:
-        r = requests.get(url)
-        f = open(file_name, 'wb')
-        for chunk in r.iter_content(chunk_size=255):
-            if chunk:
-                f.write(chunk)
-        f.close()
+        urllib.request.urlretrieve(url, file_name)
         return True
     except:
         return False
@@ -83,7 +78,7 @@ def process(gzip_file, keys_file, topic):
     except:
         pass
 
-    print('checkpoint size', len(checkpoint))
+    print('Checkpoint size:', len(checkpoint))
 
     if not file_utils.path_exists('data'):
         file_utils.create_folder('data')
