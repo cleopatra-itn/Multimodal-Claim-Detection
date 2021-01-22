@@ -25,8 +25,8 @@ import numpy as np
 import pandas as pd
 
 
-covidPath = "C:/Users/Abdul Sittar/Downloads/subset_covid_tweets/subset_covid_tweets.jsonl"
-covidImgPath = "C:/Users/Abdul Sittar/Downloads/subset_covid_tweets/covid_images/"
+covidPath = ""
+covidImgPath = ""
 
 techPath = ""
 techImgPath = ""
