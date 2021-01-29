@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[5]:
-
-
 from tweet_parser.tweet import Tweet
 from tweet_parser.tweet_parser_errors import NotATweetError
 import fileinput
@@ -12,6 +9,7 @@ import cv2 as cv
 from PIL import Image 
 from shutil import copyfile 
 import os, os.path 
+import sys, getopt
 
 import spacy
 from spacy_langdetect import LanguageDetector
@@ -36,10 +34,13 @@ climateImgPath = ""
 
 
 
-def main():
+
     
+    #sys.exit(2)
     # Read first 1000 lines with specific number of columns
-    df=pd.read_json(covidPath, lines=True)
+
+def process(tweets_path, images_path, output_file):
+    df=pd.read_json(tweets_path, lines=True)
     df = df.loc[1:1000, ['id','text','entities','extended_entities','retweet_count']]
 
     
@@ -81,7 +82,7 @@ def main():
     c = 0
     for index, row in df.iterrows():
         b = row['id']
-        path = os.path.join(covidImgPath,str(b)+".jpg")
+        path = os.path.join(images_path,str(b)+".jpg")
         image = Image.open(path)
         width, height = image.size 
         if (width < 200 or height < 200):
@@ -108,13 +109,50 @@ def main():
     df = df.dropna(subset=['text'])
     
     #Export CSV file
-    df.to_csv('Test.csv')
+    df.to_csv(output_file)
     
+    
+def main(argv):
+    
+    tweets_path = ''
+    images_path = ''
+    output_file = ''
+    
+    try:
+       opts, args = getopt.getopt(argv,"ht:i:o:",["ifile=","ifile=","ofile="])
+    except getopt.GetoptError:
+       print('tweet_filtering.py -t <tweets_file> -i <images_folder> -o <output_file>')
+       sys.exit(2)
+    
+    for opt, arg in opts:
+        if opt == '-h':
+            print('tweet_filtering.py -t <tweets_file> -i <images_folder> -o <output_file>')
+            sys.exit(2)
+            
+        elif opt in ("-t", "--ifile"):
+            tweets_path = arg
+            
+        elif opt in ("-i", "--ifile"):
+            images_path = arg
+            
+        elif opt in ("-o", "--ofile"):
+            output_file = arg
+        
+    print('Tweets file: ', tweets_path)
+    print('Images file: ', images_path)
+    print('Output file: ', output_file)
+        
+    process(tweets_path, images_path, output_file)
+    
+
 if __name__ == "__main__":
-   main()
+    main(sys.argv[1:])
 
 
-# In[ ]:
+
+
+
+
 
 
 
