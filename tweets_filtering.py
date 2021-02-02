@@ -33,12 +33,6 @@ climatePath = ""
 climateImgPath = ""
 
 
-
-
-    
-    #sys.exit(2)
-    # Read first 1000 lines with specific number of columns
-
 def process(tweets_path, images_path, output_file):
     df=pd.read_json(tweets_path, lines=True)
     df = df.loc[1:1000, ['id','text','entities','extended_entities','retweet_count']]
