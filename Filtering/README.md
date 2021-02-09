@@ -8,7 +8,7 @@ python tweet_filtering.py -t <tweets_file.json> -i <images_folder_path> -o <outp
 
 Example script for filtering covid realted tweets
 ```
-python tweet_filtering.py -i coronavirus_tweet.json -k "../corona_images/" -t filtered_Corona_Tweets.json
+python tweet_filtering.py -t coronavirus_tweet.json -i "../corona_images/" -o filtered_Corona_Tweets.json
 ```
 
 You should have list of tweets in jsonl format. Here is the example format of jsonl file:
