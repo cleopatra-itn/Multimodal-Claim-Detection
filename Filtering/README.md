@@ -10,8 +10,7 @@ Example script for filtering covid realted tweets
 ```
 python tweet_filtering.py -t coronavirus_tweet.json -i "../corona_images/" -o filtered_Corona_Tweets.json
 ```
-
-You should have list of tweets in jsonl format. Here is the example format of jsonl file:
+Here is the example format of tweets in jsonl file:
 ```
 {
 	"created_at": "Thu Aug 23 13:01:06 +0000 2018",
