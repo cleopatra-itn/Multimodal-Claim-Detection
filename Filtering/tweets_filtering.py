@@ -35,7 +35,7 @@ climateImgPath = ""
 
 def process(tweets_path, images_path, output_file):
     df=pd.read_json(tweets_path, lines=True)
-    df = df.loc[1:1000, ['id','text','entities','extended_entities','retweet_count']]
+    #df = df.loc[1:1000, ['id','text','entities','extended_entities','retweet_count']]
 
     
     #Replace the extended_entities column with only image_url
@@ -55,7 +55,7 @@ def process(tweets_path, images_path, output_file):
     #Remove tweets which don't have text in english
     inds = []
     c = 0
-    for row in df['text']:
+    for row in df['full_text']:
         doc = nlp(row)
     
         if doc._.language['language'] != "en":
@@ -68,7 +68,7 @@ def process(tweets_path, images_path, output_file):
     
     
     #Deduplicate the tweets based on text and keep the first one
-    df = df.drop_duplicates('text', keep='first')
+    df = df.drop_duplicates('full_text', keep='first')
 
     
     #Remove tweets which have image-size less than our threshold 
@@ -100,10 +100,10 @@ def process(tweets_path, images_path, output_file):
         
     #Insert new column of hashtags
     df.insert(4, "hashtags", Type_new)
-    df = df.dropna(subset=['text'])
+    df = df.dropna(subset=['full_text'])
     
     #Export CSV file
-    df.to_csv(output_file)
+    df.to_json(output_file)
     
     
 def main(argv):
@@ -141,13 +141,3 @@ def main(argv):
 
 if __name__ == "__main__":
     main(sys.argv[1:])
-
-
-
-
-
-
-
-
-
-
